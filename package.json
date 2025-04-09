@@ -1,0 +1,22 @@
+{
+  "name": "gemini-quiz",
+  "version": "1.0.0",
+  "description": "An Electron app that monitors clipboard and uses Gemini API to provide instant responses",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "electron",
+    "gemini-api",
+    "clipboard-monitor"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.0",
+    "dotenv": "^16.4.7",
+    "electron": "^28.3.3"
+  }
+}

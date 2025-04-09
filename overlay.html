@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>QuiPro Answer</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 10px;
+            background-color: rgba(52, 152, 219, 0.95);
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            user-select: none;
+            -webkit-app-region: drag;
+        }
+        .answer {
+            color: white;
+            font-size: 36px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .loading {
+            width: 20px;
+            height: 20px;
+            border: 3px solid #ffffff;
+            border-top: 3px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            display: none;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div id="loading" class="loading"></div>
+    <div id="answer" class="answer"></div>
+
+    <script>
+        const { ipcRenderer } = require('electron');
+
+        ipcRenderer.on('update-answer', (event, answer) => {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('answer').textContent = answer;
+        });
+
+        ipcRenderer.on('show-loading', () => {
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('answer').textContent = '';
+        });
+
+        ipcRenderer.on('hide-loading', () => {
+            document.getElementById('loading').style.display = 'none';
+        });
+
+        // Close overlay when clicking anywhere
+        document.body.addEventListener('click', () => {
+            ipcRenderer.send('close-overlay');
+        });
+
+        // Close overlay with Escape key
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') {
+                ipcRenderer.send('close-overlay');
+            }
+        });
+    </script>
+</body>
+</html>
